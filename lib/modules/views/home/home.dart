@@ -18,8 +18,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../about/about_info.dart';
 
 class HomeScreen extends StatelessWidget {
-  final bool? isVooted;
-  const HomeScreen({Key? key, this.isVooted});
+  final bool? isVoted;
+
+  const HomeScreen({super.key, this.isVoted});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () async {
-                  var isUserOld = await cubit.prefServices.getInteger(isOld);
+                  // var isUserOld = await cubit.prefServices.getInteger(isOld);
                   // Redirect to another screen (e.g., VotersScreen)
 
                   if (cubit.userModal!.old == 0) {
@@ -68,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                         context: context,
                         dialogType: DialogType
                             .warning, // You can choose the dialog type you prefer
-                        animType: AnimType.SCALE,
+                        animType: AnimType.scale,
                         titleTextStyle: const TextStyle(fontWeight: FontWeight.w700),
                         title: 'لقد قمت بالإنتخاب بالفعل',
                         // desc: "state.message",

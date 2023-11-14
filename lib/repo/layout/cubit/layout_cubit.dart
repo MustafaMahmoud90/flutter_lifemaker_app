@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:connectivity_plus/connectivity_plus.dart' as CONPLS;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_offline/flutter_offline.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:lifemaker/modules/views/connect/internet.dart';
@@ -16,7 +16,6 @@ import 'package:lifemaker/repo/modals/user_data_modal.dart';
 import 'package:lifemaker/repo/shared/constans/constans.dart';
 import 'package:lifemaker/repo/shared/network/local_network.dart';
 import 'package:lifemaker/repo/shared/network/test.dart';
-import 'package:meta/meta.dart';
 
 part 'layout_state.dart';
 
@@ -25,10 +24,10 @@ class LayoutCubit extends Cubit<LayoutState> {
   LayoutCubit() : super(LayoutInitial());
 
   UserModal? userModal;
-  int CurrentIndex = 0;
+  int currentIndex = 0;
 
   void changeNav({required int index}) {
-    CurrentIndex = index;
+    currentIndex = index;
     emit(ChangeBottomNavState());
   }
 
@@ -51,8 +50,13 @@ class LayoutCubit extends Cubit<LayoutState> {
       if (responseData['status'] == true) {
         userModal = UserModal.fromJson(data: responseData['data']);
         log('====================================');
-        print("user OLD ID IS ${userModal!.old!}");
-        print("user username ID IS ${userModal!.username!}");
+        if (kDebugMode) {
+          print("user OLD ID IS ${userModal!.old!}");
+        }
+
+        if (kDebugMode) {
+          print("user username ID IS ${userModal!.username!}");
+        }
 
         await prefServices.saveInteger(isOld, userModal!.old!);
         // await prefServices.saveString(
@@ -63,7 +67,6 @@ class LayoutCubit extends Cubit<LayoutState> {
       }
     } catch (e) {
       emit(GetUserDataFaildState(error: e.toString()));
-      print("==================================Error: $e");
     }
   }
 
@@ -136,7 +139,7 @@ class LayoutCubit extends Cubit<LayoutState> {
             'https://digifly-eg.com/flutter/life-Makers/public/api/toggleVote',
           ),
           headers: {
-            'Authorization': 'Bearer ${userToken}',
+            'Authorization': 'Bearer $userToken',
           },
           body: requestBody,
         );
@@ -151,7 +154,10 @@ class LayoutCubit extends Cubit<LayoutState> {
           emit(VotingFaildState());
         }
       } catch (e) {
-        print('Error: $e');
+
+        if (kDebugMode) {
+          print('Error: $e');
+        }
         emit(VotingFaildState());
       }
     } else {
@@ -199,12 +205,12 @@ class LayoutCubit extends Cubit<LayoutState> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
-                          style: ButtonStyle(
+                          style: const ButtonStyle(
                             padding: MaterialStatePropertyAll(
                                 EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 30)),
                             backgroundColor: MaterialStatePropertyAll(
-                                const Color(0xff0E395E)),
+                                Color(0xff0E395E)),
                           ),
                           child: const Text(
                             'إلغاء',
@@ -218,12 +224,12 @@ class LayoutCubit extends Cubit<LayoutState> {
                           },
                         ),
                         TextButton(
-                          style: ButtonStyle(
+                          style: const ButtonStyle(
                             padding: MaterialStatePropertyAll(
                                 EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 30)),
                             backgroundColor: MaterialStatePropertyAll(
-                                const Color(0xff0E395E)),
+                                Color(0xff0E395E)),
                           ),
                           child: const Text(
                             'نعم',
@@ -249,16 +255,108 @@ class LayoutCubit extends Cubit<LayoutState> {
     );
   }
 
+  Future<Future<Object?>> showDeleteAccountDialog(
+      BuildContext context) async {
+    return showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, anim1, anim2) {
+        return Center(
+          child: SingleChildScrollView(
+            child: Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const Text(
+                      'تأكيد حذف الحساب',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text('هل أنت متأكد أنك تريد حذف الحساب؟'),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          style: const ButtonStyle(
+                            padding: MaterialStatePropertyAll(
+                                EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 30)),
+                            backgroundColor: MaterialStatePropertyAll(
+                                Color(0xff0E395E)),
+                          ),
+                          child: const Text(
+                            'إلغاء',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                        ),
+                        TextButton(
+                          style: const ButtonStyle(
+                            padding: MaterialStatePropertyAll(
+                                EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 30)),
+                            backgroundColor: MaterialStatePropertyAll(
+                                Color(0xff0E395E)),
+                          ),
+                          child: const Text(
+                            'نعم',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          onPressed: () {
+                            const Duration(seconds: 2); // Add a 2-second delay
+                            logOut(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
   void checkInternetConnection(BuildContext context) async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.none) {
+    var connectivityResult = await CONPLS.Connectivity().checkConnectivity();
+    if (connectivityResult == CONPLS.ConnectivityResult.none && context.mounted) {
       // Navigator.pushNamed(context, '');
       navigateTo(context, const InternetLost());
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LayoutMaker()),
-      );
+      if(context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LayoutMaker()),
+        );
+      }
+
     }
   }
 }

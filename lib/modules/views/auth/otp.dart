@@ -1,29 +1,29 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lifemaker/modules/views/auth/cubit/auth_cubit.dart';
 import 'package:lifemaker/modules/views/auth/input_theme.dart';
 import 'package:lifemaker/modules/views/auth/login.dart';
-import 'package:lifemaker/modules/widgets/btn-theme.dart';
+import 'package:lifemaker/modules/widgets/btn_theme.dart';
 import 'package:lifemaker/modules/widgets/component.dart';
-import 'package:lifemaker/modules/widgets/layout.dart';
-import 'package:lifemaker/repo/shared/constans/constans.dart';
 import 'package:lifemaker/repo/shared/network/local_network.dart';
 
 class OTPScreen extends StatelessWidget {
-  final OTPController = TextEditingController();
-  final userId;
-  final userOldId;
-  final formKey = GlobalKey<FormState>();
+  final dynamic otpController = TextEditingController();
+  final dynamic userId;
+  final dynamic userOldId;
+  final dynamic formKey = GlobalKey<FormState>();
 
   OTPScreen({super.key, required this.userId, this.userOldId});
 
   @override
   Widget build(BuildContext context) {
-    print("===================");
-    print("user Id is $userId");
-    print("===================");
+    if (kDebugMode) {
+      print("user Id is $userId");
+    }
+
     return BlocConsumer<AuthCubit, AuthStates>(
       builder: (context, state) {
         return Scaffold(
@@ -105,7 +105,7 @@ class OTPScreen extends StatelessWidget {
                             //   }, // end onSubmit
                             // ),
                             child: FormTheme(
-                              controller: OTPController,
+                              controller: otpController,
                               icon: CupertinoIcons
                                   .person_crop_circle_fill_badge_checkmark,
                               hintText: "أدخال الرمز",
@@ -120,7 +120,7 @@ class OTPScreen extends StatelessWidget {
                                 const ButtonStyle(alignment: Alignment.center),
                             onPressed: () {
                               BlocProvider.of<AuthCubit>(context)
-                                  .ResendVerificationCode(userId: userId);
+                                  .resendVerificationCode(userId: userId);
                             },
                             child: state is OTPResendLoadingState
                                 ? Container(
@@ -188,7 +188,7 @@ class OTPScreen extends StatelessWidget {
                             if (formKey.currentState!.validate() == true) {
                               BlocProvider.of<AuthCubit>(context)
                                   .sendVerificationCode(
-                                      code: OTPController.text, userId: userId);
+                                      code: otpController.text, userId: userId);
                             }
                           },
                           child: Center(
@@ -232,25 +232,33 @@ class OTPScreen extends StatelessWidget {
       listener: (context, state) async {
         var userToken = await CacheNetwork.getCacheData(key: "token");
         if (state is OTPSuccessState) {
-          print(userToken);
+          if (kDebugMode) {
+            print(userToken);
+          }
           await Future.delayed(
               const Duration(seconds: 2)); // Add a 2-second delay
-          navigateAndFinish(context, LoginScreen());
+          if(context.mounted)
+            {
+              navigateAndFinish(context, LoginScreen());
+            }
         } else if (state is OTPFieldState) {
-          AwesomeDialog(
-            context: context,
-            dialogType:
-                DialogType.ERROR, // You can choose the dialog type you prefer
-            animType: AnimType.SCALE,
-            title: 'خطأ في تسجيل الكود',
-            desc: state.message,
-            btnOkOnPress: () {},
-            btnCancelOnPress: () {},
-            btnOkColor: const Color(0xff0E395E),
-            btnCancelColor: const Color(0xff0E395E),
-            btnOkText: 'إعادة إدخال',
-            btnCancelText: 'إلغاء',
-          ).show();
+         if(context.mounted)
+           {
+             AwesomeDialog(
+               context: context,
+               dialogType:
+               DialogType.error, // You can choose the dialog type you prefer
+               animType: AnimType.scale,
+               title: 'خطأ في تسجيل الكود',
+               desc: state.message,
+               btnOkOnPress: () {},
+               btnCancelOnPress: () {},
+               btnOkColor: const Color(0xff0E395E),
+               btnCancelColor: const Color(0xff0E395E),
+               btnOkText: 'إعادة إدخال',
+               btnCancelText: 'إلغاء',
+             ).show();
+           }
         }
       },
     );

@@ -18,13 +18,13 @@ class SharedPrefServices {
   }
 
   saveBoolean(String key, bool value) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.setBool(key, value);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(key, value);
   }
 
   saveInLocalStorageAsInt(String key, int value) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.setInt(key, value);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(key, value);
   }
   
   Future<bool> getBoolean(String? key) async {

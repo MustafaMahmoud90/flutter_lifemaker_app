@@ -1,19 +1,19 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:lifemaker/modules/views/thanks/thanks.dart';
 import 'package:lifemaker/modules/views/voating/vot_card.dart';
 import 'package:lifemaker/modules/views/voating/voters_details.dart';
-import 'package:lifemaker/modules/widgets/btn-theme.dart';
+import 'package:lifemaker/modules/widgets/btn_theme.dart';
 import 'package:lifemaker/modules/widgets/component.dart';
-import 'package:lifemaker/modules/widgets/layout.dart';
 import 'package:lifemaker/repo/layout/cubit/layout_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class VotersScreen extends StatefulWidget {
-  const VotersScreen({Key? key});
+  const VotersScreen({super.key});
+
 
   @override
   State<VotersScreen> createState() => _VotersScreenState();
@@ -44,7 +44,9 @@ class _VotersScreenState extends State<VotersScreen> {
         // FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
 
         if (state is GetVotersSuccessState) {
-          print("تم تحميل المرشحين.");
+          if (kDebugMode) {
+            print("تم تحميل المرشحين.");
+          }
         } else if (state is GetVotersFaildState) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("خطأ في تحميل المرشحين."),
@@ -62,13 +64,13 @@ class _VotersScreenState extends State<VotersScreen> {
           },
           child: Scaffold(
             appBar: AppBar(
-              title: Text(
+              title: const Text(
                 "إنتخابات مجلس إدارة متطوعين",
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xff0E395E),
+                  color: Color(0xff0E395E),
                 ),
               ),
               centerTitle: true,
@@ -81,7 +83,7 @@ class _VotersScreenState extends State<VotersScreen> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: Icon(
+                icon: const Icon(
                   CupertinoIcons.arrow_right,
                 ),
               ),
@@ -104,7 +106,7 @@ class _VotersScreenState extends State<VotersScreen> {
                   cubit.refreshData();
                 },
                 child: state is AlreadyVotedState
-                    ? Text("data")
+                    ? const Text("data")
                     : SingleChildScrollView(
                         physics: const AlwaysScrollableScrollPhysics(),
                         child: Column(
@@ -118,7 +120,7 @@ class _VotersScreenState extends State<VotersScreen> {
                             //   ),
                             // ),
                             if (isBeforeStartTime)
-                              Text(
+                              const Text(
                                 "معاد الانتخابات اليوم الساعة العاشرة صباحًا",
                                 style: TextStyle(
                                   color: Colors.red, // يمكنك تغيير لون النص
@@ -131,7 +133,7 @@ class _VotersScreenState extends State<VotersScreen> {
                               ),
                             GridView.builder(
                               gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
                                       mainAxisSpacing: 30,
                                       crossAxisSpacing: 20,
@@ -170,7 +172,7 @@ class _VotersScreenState extends State<VotersScreen> {
                                         text: voter.name!,
                                         icon: CupertinoIcons.info_circle_fill,
                                         onTap: () {
-                                          final voterId = voter.id.toString();
+                                          // final voterId = voter.id.toString();
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) =>
@@ -228,15 +230,20 @@ class _VotersScreenState extends State<VotersScreen> {
                                                 await SharedPreferences
                                                     .getInstance();
                                             prefs.setBool('hasVoted', true);
-                                            navigateAndFinish(
-                                                context, ThanksScreen());
+                                            if(mounted)
+                                              {
+                                                navigateAndFinish(
+                                                    context, const ThanksScreen());
+                                              }
                                           });
-                                          print(selectedVoters.length);
+                                          if (kDebugMode) {
+                                            print(selectedVoters.length);
+                                          }
                                         } else {
                                           AwesomeDialog(
                                             context: context,
                                             dialogType: DialogType.error,
-                                            animType: AnimType.SCALE,
+                                            animType: AnimType.scale,
                                             title: 'خطأ في إلإنتخاب',
                                             desc:
                                                 "عذرا، برجاء إختيار 11 مرشح من قائمة المرشحين لإتمام العملية الإنتخابية.",

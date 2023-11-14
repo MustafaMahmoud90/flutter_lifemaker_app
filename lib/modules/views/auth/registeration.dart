@@ -6,10 +6,12 @@ import 'package:lifemaker/modules/views/auth/cubit/auth_cubit.dart';
 import 'package:lifemaker/modules/views/auth/input_theme.dart';
 import 'package:lifemaker/modules/views/auth/login.dart';
 import 'package:lifemaker/modules/views/auth/otp.dart';
-import 'package:lifemaker/modules/widgets/btn-theme.dart';
+import 'package:lifemaker/modules/widgets/btn_theme.dart';
 import 'package:lifemaker/modules/widgets/utils.dart';
 
 class RegistrationScreen extends StatefulWidget {
+  const RegistrationScreen({super.key});
+
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
@@ -25,19 +27,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   final phoneController = TextEditingController();
 
-  final whatsapp_numberController = TextEditingController();
+  final whatsappNumberController = TextEditingController();
 
-  final id_card_numberController = TextEditingController();
+  final idCardNumberController = TextEditingController();
 
-  final the_jobController = TextEditingController();
+  final theJobController = TextEditingController();
 
-  final the_addressController = TextEditingController();
+  final theAddressController = TextEditingController();
 
   final governorateController = TextEditingController();
 
-  final city_centerController = TextEditingController();
+  final cityCenterController = TextEditingController();
 
-  final previous_experienceController = TextEditingController();
+  final previousExperienceController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -81,17 +83,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           await Future.delayed(
               const Duration(seconds: 2)); // Add a 2-second delay
 
-          navigateTo(
-              context,
-              OTPScreen(
-                userId: state.userId,
-              ));
+          if (mounted) {
+            navigateTo(
+                context,
+                OTPScreen(
+                  userId: state.userId,
+                ));
+          }
         } else if (state is FailedToRegisterState) {
           AwesomeDialog(
             context: context,
-            dialogType:
-                DialogType.ERROR, // You can choose the dialog type you prefer
-            animType: AnimType.SCALE,
+            dialogType: DialogType.error,
+            // You can choose the dialog type you prefer
+            animType: AnimType.scale,
             title: 'خطأ في التسجيل',
             desc: state.message,
             btnOkOnPress: () {},
@@ -249,13 +253,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         isExpanded: true,
                                         alignment: Alignment.center,
                                         icon: Container(
-                                          margin: EdgeInsets.only(left: 7),
-                                          child: Icon(
+                                          margin:
+                                              const EdgeInsets.only(left: 7),
+                                          child: const Icon(
                                             CupertinoIcons.chevron_down,
                                             size: 20,
                                           ),
                                         ),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 12,
                                             fontFamily: 'Alamiri',
                                             color: Colors.black),
@@ -271,7 +276,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               color: Color(0xffD6D6D6)),
                                           contentPadding: const EdgeInsets.only(
                                               top: 20, bottom: 20),
-                                          prefixIcon: Icon(
+                                          prefixIcon: const Icon(
                                             CupertinoIcons.location_solid,
                                             color: Color(0xff0E395E),
                                           ),
@@ -327,16 +332,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         userName: userNameController.text,
                                         phone: phoneController.text,
                                         password: passwordController.text,
-                                        city_center: city_centerController.text,
+                                        cityCenter: cityCenterController.text,
                                         governorate: selectedGovernorate,
-                                        id_card_number:
-                                            id_card_numberController.text,
-                                        whatsapp_number:
-                                            whatsapp_numberController.text,
-                                        the_job: the_jobController.text,
-                                        the_address: the_addressController.text,
-                                        previous_experience:
-                                            previous_experienceController.text,
+                                        idCardNumber:
+                                            idCardNumberController.text,
+                                        whatsAppNumber:
+                                            whatsappNumberController.text,
+                                        theJob: theJobController.text,
+                                        theAddress: theAddressController.text,
+                                        previousExperience:
+                                            previousExperienceController.text,
                                       );
                                     }
                                   },

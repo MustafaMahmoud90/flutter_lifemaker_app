@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lifemaker/modules/views/auth/cubit/auth_cubit.dart';
 import 'package:lifemaker/modules/views/auth/input_theme.dart';
 import 'package:lifemaker/modules/views/auth/otp_reset.dart';
-import 'package:lifemaker/modules/widgets/btn-theme.dart';
+import 'package:lifemaker/modules/widgets/btn_theme.dart';
 import 'package:lifemaker/modules/widgets/component.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
@@ -46,7 +46,7 @@ class ResetPasswordScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 10.0),
+                        const SizedBox(height: 10.0),
                         TextButton(
                           style: const ButtonStyle(
                               padding:
@@ -131,17 +131,20 @@ class ResetPasswordScreen extends StatelessWidget {
         if (state is ResetPasswordSuccessState) {
           await Future.delayed(
               const Duration(seconds: 2)); // Add a 2-second delay
-          navigateTo(
-              context,
-              OTPForResetScreen(
-                userId: state.userId,
-              ));
+         if(context.mounted)
+           {
+             navigateTo(
+                 context,
+                 OTPForResetScreen(
+                   userId: state.userId,
+                 ));
+           }
         } else if (state is FailedToResetPasswordState) {
           AwesomeDialog(
             context: context,
             dialogType:
-                DialogType.ERROR, // You can choose the dialog type you prefer
-            animType: AnimType.SCALE,
+                DialogType.error, // You can choose the dialog type you prefer
+            animType: AnimType.scale,
             title: 'يرجي التأكد من كلمة السر',
             desc: state.message,
             btnOkOnPress: () {},

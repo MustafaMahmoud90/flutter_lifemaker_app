@@ -12,8 +12,7 @@ class OtherMeans extends StatelessWidget {
     return SliverAppBar(
       expandedHeight: 500, excludeHeaderSemantics: true,
       automaticallyImplyLeading: true,
-      // pinned: false,
-      elevation: 7,
+       elevation: 7,
       centerTitle: false,
       floating: false,
       pinned: true,

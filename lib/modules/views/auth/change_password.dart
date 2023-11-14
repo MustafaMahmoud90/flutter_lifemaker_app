@@ -5,14 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lifemaker/modules/views/auth/cubit/auth_cubit.dart';
 import 'package:lifemaker/modules/views/auth/input_theme.dart';
 import 'package:lifemaker/modules/views/auth/login.dart';
-import 'package:lifemaker/modules/widgets/btn-theme.dart';
+import 'package:lifemaker/modules/widgets/btn_theme.dart';
 import 'package:lifemaker/modules/widgets/component.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
   final passwordOneController = TextEditingController();
   final passwordConfirmController = TextEditingController();
-  final userId;
-  final token;
+  final dynamic userId;
+  final dynamic token;
 
   final formKey = GlobalKey<FormState>();
   ChangePasswordScreen({super.key, required this.userId, this.token});
@@ -98,10 +98,10 @@ class ChangePasswordScreen extends StatelessWidget {
                                     if (formKey.currentState!.validate() ==
                                         true) {
                                       BlocProvider.of<AuthCubit>(context)
-                                          .ChangePassword(
+                                          .changePassword(
                                               password:
                                                   passwordOneController.text,
-                                              password_confirmation:
+                                              passwordConfirmation:
                                                   passwordConfirmController
                                                       .text,
                                               token: token);
@@ -157,13 +157,16 @@ class ChangePasswordScreen extends StatelessWidget {
         if (state is ChangePasswordSuccessState) {
           await Future.delayed(
               const Duration(seconds: 2)); // Add a 2-second delay
-          navigateAndFinish(context, LoginScreen());
+          if(context.mounted)
+            {
+              navigateAndFinish(context, LoginScreen());
+            }
         } else if (state is FailedToChangePasswordState) {
           AwesomeDialog(
             context: context,
             dialogType:
-                DialogType.ERROR, // You can choose the dialog type you prefer
-            animType: AnimType.SCALE,
+                DialogType.error, // You can choose the dialog type you prefer
+            animType: AnimType.scale,
             title: 'يرجي التأكد من كلمة السر',
             desc: state.message,
             btnOkOnPress: () {},

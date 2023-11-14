@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lifemaker/modules/views/voating/voters_details.dart';
 import 'package:lifemaker/repo/layout/cubit/layout_cubit.dart';
 
 class VotersForDetailScreen extends StatelessWidget {
-  const VotersForDetailScreen({Key? key});
+  const VotersForDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,9 @@ class VotersForDetailScreen extends StatelessWidget {
     return BlocConsumer<LayoutCubit, LayoutState>(
       listener: (context, state) {
         if (state is GetVotersSuccessState) {
-          print("تم تحميل المرشحين.");
+          if (kDebugMode) {
+            print("تم تحميل المرشحين.");
+          }
         } else if (state is GetVotersFaildState) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("خطأ في تحميل المرشحين."),
@@ -24,13 +27,13 @@ class VotersForDetailScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(
+            title: const Text(
               "إنتخابات مجلس إدارة متطوعين",
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
-                color: const Color(0xff0E395E),
+                color: Color(0xff0E395E),
               ),
             ),
             centerTitle: true,
@@ -43,7 +46,7 @@ class VotersForDetailScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(
+              icon: const Icon(
                 CupertinoIcons.arrow_right,
               ),
             ),
@@ -83,14 +86,14 @@ class VotersForDetailScreen extends StatelessWidget {
                         final voter = cubit.voters[index];
                         return GestureDetector(
                           onTap: () {
-                            final voterId = voter.id.toString();
+                            // final voterId = voter.id.toString();
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => DetailsScreen(e: voter),
                               ),
                             );
                           },
-                          child: Container(
+                          child: SizedBox(
                             width: double.infinity,
                             height: double.infinity,
                             child: Hero(
@@ -145,7 +148,7 @@ class VotersForDetailScreen extends StatelessWidget {
                                             ),
                                           ),
                                           const SizedBox(width: 5),
-                                          Icon(
+                                          const Icon(
                                             CupertinoIcons.info_circle_fill,
                                             color: Colors
                                                 .white, // You can change the color as needed

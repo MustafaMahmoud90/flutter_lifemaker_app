@@ -38,13 +38,13 @@ class CardWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
-              color: isAvilable ? Color(0xffE9791E) : Colors.transparent,
+              color: isAvilable ? const Color(0xffE9791E) : Colors.transparent,
               blurRadius: 8,
               spreadRadius: -3),
         ], borderRadius: BorderRadius.circular(20)),
         child: Card(
           shadowColor: Colors.amber,
-          color: isAvilable ? const Color(0xffE9791E) : Color(0xffdcdddd),
+          color: isAvilable ? const Color(0xffE9791E) : const Color(0xffdcdddd),
           semanticContainer: true,
           shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.circular(50)),
@@ -101,13 +101,13 @@ class AboutWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
-              color: isAvilable ? Color(0xffE9791E) : Colors.transparent,
+              color: isAvilable ? const Color(0xffE9791E) : Colors.transparent,
               blurRadius: 8,
               spreadRadius: -3),
         ], borderRadius: BorderRadius.circular(20)),
         child: Card(
           shadowColor: Colors.amber,
-          color: isAvilable ? const Color(0xffE9791E) : Color(0xffdcdddd),
+          color: isAvilable ? const Color(0xffE9791E) : const Color(0xffdcdddd),
           semanticContainer: true,
           shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.circular(50)),
@@ -165,13 +165,13 @@ class InfoWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
-              color: isAvilable ? Color(0xffE9791E) : Colors.transparent,
+              color: isAvilable ? const Color(0xffE9791E) : Colors.transparent,
               blurRadius: 8,
               spreadRadius: -3),
         ], borderRadius: BorderRadius.circular(20)),
         child: Card(
           shadowColor: Colors.amber,
-          color: isAvilable ? const Color(0xffE9791E) : Color(0xffdcdddd),
+          color: isAvilable ? const Color(0xffE9791E) : const Color(0xffdcdddd),
           semanticContainer: true,
           shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.circular(50)),
@@ -229,13 +229,13 @@ class OtherMeansWidgets extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
-              color: isAvilable ? Color(0xffE9791E) : Colors.transparent,
+              color: isAvilable ? const Color(0xffE9791E) : Colors.transparent,
               blurRadius: 8,
               spreadRadius: -3),
         ], borderRadius: BorderRadius.circular(20)),
         child: Card(
           shadowColor: Colors.amber,
-          color: isAvilable ? const Color(0xffE9791E) : Color(0xffdcdddd),
+          color: isAvilable ? const Color(0xffE9791E) : const Color(0xffdcdddd),
           semanticContainer: true,
           shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.circular(50)),

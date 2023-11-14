@@ -1,10 +1,9 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:lifemaker/modules/widgets/component.dart';
 import 'package:lifemaker/modules/widgets/layout.dart';
@@ -16,7 +15,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:share/share.dart';
 
 class ThanksScreen extends StatefulWidget {
-  ThanksScreen({Key? key}) : super(key: key);
+  const ThanksScreen({Key? key}) : super(key: key);
 
   @override
   State<ThanksScreen> createState() => _ThanksScreenState();
@@ -34,27 +33,31 @@ class _ThanksScreenState extends State<ThanksScreen> {
         if (image != null) {
           // Save the screenshot
           await saveImage(image);
+          if(mounted)
+            {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.success,
+                animType: AnimType.scale,
+                title: 'تم أخذ لقطة شاشة',
+                btnOkText: "شاركها مع أصدقائك",
+                btnOkOnPress: () async {
+                  // Share the screenshot
+                },
+                btnOkColor: const Color(0xff0E395E),
+                btnCancelColor: const Color(0xff0E395E),
+              ).show();
 
-          // Show a dialog indicating success
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.success,
-            animType: AnimType.SCALE,
-            title: 'تم أخذ لقطة شاشة',
-            btnOkText: "شاركها مع أصدقائك",
-            btnOkOnPress: () async {
-              // Share the screenshot
-            },
-            btnOkColor: const Color(0xff0E395E),
-            btnCancelColor: const Color(0xff0E395E),
-          ).show();
+            }
         }
       } else {
         // Handle denied permission
       }
     } catch (e) {
       // Handle errors
-      print('Error: $e');
+      if (kDebugMode) {
+        print('Error: $e');
+      }
     }
   }
 
@@ -67,7 +70,9 @@ class _ThanksScreenState extends State<ThanksScreen> {
       final name = 'VoteResults_$time';
       await ImageGallerySaver.saveImage(bytes, name: name);
     } catch (e) {
-      print('Error saving image: $e');
+      if (kDebugMode) {
+        print('Error saving image: $e');
+      }
     }
   }
 
@@ -82,7 +87,9 @@ class _ThanksScreenState extends State<ThanksScreen> {
 
       return true;
     } catch (e) {
-      print('Error sharing image: $e');
+      if (kDebugMode) {
+        print('Error sharing image: $e');
+      }
       return false;
     }
   }
@@ -111,21 +118,21 @@ class _ThanksScreenState extends State<ThanksScreen> {
                 )
               ],
               leading: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   CupertinoIcons.arrow_right,
                 ),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
-                      Color.fromARGB(255, 14, 57, 94)),
+                      const Color.fromARGB(255, 14, 57, 94)),
                 ),
                 color: Colors.white,
                 onPressed: () {
                   navigateAndFinish(context,
-                      LayoutMaker()); // Uncomment and replace with your own navigation logic
+                      const LayoutMaker()); // Uncomment and replace with your own navigation logic
                 },
               ),
             ),
-            body: Container(
+            body: SizedBox(
               // alignment: Alignment.center,
               width: double.infinity,
               height: double.infinity,
@@ -140,8 +147,8 @@ class _ThanksScreenState extends State<ThanksScreen> {
                     fit: BoxFit.cover,
                   ),
                   state is GetUserDataFaildState
-                      ? CircularProgressIndicator()
-                      : Text(
+                      ? const CircularProgressIndicator()
+                      : const Text(
                           " فخور بالمشاركة في انتخابات مجلس إدارة متطوعين مؤسسة صناع الحياة",
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -160,32 +167,32 @@ class _ThanksScreenState extends State<ThanksScreen> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 5),
                       decoration: BoxDecoration(
-                        color: Color(0xffE9791E),
+                        color: const Color(0xffE9791E),
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
-                          Text(
+                          const Text(
                             "حفظ",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Container(
                             alignment: Alignment.center,
                             width: 40,
                             height: 40,
                             decoration: BoxDecoration(
-                              color: Color(0xff0E395E),
+                              color: const Color(0xff0E395E),
                               borderRadius: BorderRadius.circular(50),
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.downloading_rounded,
                               color: Colors.white,
                             ),

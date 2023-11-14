@@ -6,9 +6,9 @@ class FormTheme extends StatefulWidget {
   final IconData icon;
   final String hintText;
   final TextInputType type;
-  bool? isPassword;
+  final bool? isPassword;
 
-  FormTheme({
+  const FormTheme({
     Key? key,
     required this.controller,
     required this.icon,

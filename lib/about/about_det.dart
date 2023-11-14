@@ -81,7 +81,7 @@ class AboutDetails extends StatelessWidget {
           text: value,
           style: const TextStyle(
             fontFamily: 'Alamiri',
-            height: 2.5, // Set the line height to 2
+            height: 2.5,
             color: Colors.black,
             // fontWeight: FontWeight.bold,
 
@@ -95,8 +95,7 @@ class AboutDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color(0xff0E395E),
-      // appBar: AppBar(),
+
       body: CustomScrollView(
         shrinkWrap: true,
         slivers: [

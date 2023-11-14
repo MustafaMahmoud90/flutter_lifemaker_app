@@ -6,10 +6,9 @@ import 'package:lifemaker/modules/views/auth/cubit/auth_cubit.dart';
 import 'package:lifemaker/modules/views/auth/input_theme.dart';
 import 'package:lifemaker/modules/views/auth/password_reset.dart';
 import 'package:lifemaker/modules/views/auth/registeration.dart';
-import 'package:lifemaker/modules/widgets/btn-theme.dart';
+import 'package:lifemaker/modules/widgets/btn_theme.dart';
 import 'package:lifemaker/modules/widgets/component.dart';
 import 'package:lifemaker/modules/widgets/layout.dart';
-import 'package:lifemaker/repo/shared/network/local_network.dart';
 
 class LoginScreen extends StatelessWidget {
   final userNameController = TextEditingController();
@@ -169,7 +168,7 @@ class LoginScreen extends StatelessWidget {
                                               const Duration(milliseconds: 200),
                                           pageBuilder: (context, animation,
                                                   secondaryAnimation) =>
-                                              RegistrationScreen(),
+                                              const RegistrationScreen(),
                                           transitionsBuilder: (context,
                                               animation,
                                               secondaryAnimation,
@@ -178,7 +177,7 @@ class LoginScreen extends StatelessWidget {
                                                 .buildTransitions(
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      RegistrationScreen()),
+                                                      const RegistrationScreen()),
                                               context,
                                               animation,
                                               secondaryAnimation,
@@ -214,20 +213,15 @@ class LoginScreen extends StatelessWidget {
         if (state is LoginSuccessState) {
           await Future.delayed(
               const Duration(seconds: 2)); // Add a 2-second delay
-          navigateAndFinish(context, LayoutMaker());
-
-          // var userToken = await CacheNetwork.getCacheData(
-          //   key: "token",
-          // );
-          //           print('userToken ======> ');
-
-          // print(userToken);
+          if (context.mounted) {
+            navigateAndFinish(context, const LayoutMaker());
+          }
         } else if (state is FailedToLoginState) {
           AwesomeDialog(
             context: context,
-            dialogType:
-                DialogType.ERROR, // You can choose the dialog type you prefer
-            animType: AnimType.SCALE,
+            dialogType: DialogType.error,
+            // You can choose the dialog type you prefer
+            animType: AnimType.scale,
             title: 'خطأ في التسجيل',
             desc: state.message,
             btnOkOnPress: () {},

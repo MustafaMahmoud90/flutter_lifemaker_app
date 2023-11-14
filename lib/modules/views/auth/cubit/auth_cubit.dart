@@ -1,7 +1,7 @@
 import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
-// import 'package:code_app/shared/network/local_network.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:lifemaker/repo/modals/user_data_modal.dart';
@@ -26,13 +26,13 @@ class AuthCubit extends Cubit<AuthStates> {
     required String userName,
     required String phone,
     required String password,
-    required String whatsapp_number,
-    required String id_card_number,
-    required String the_job,
-    required String the_address,
+    required String whatsAppNumber,
+    required String idCardNumber,
+    required String theJob,
+    required String theAddress,
     required String governorate,
-    required String city_center,
-    required String previous_experience,
+    required String cityCenter,
+    required String previousExperience,
   }) async {
     emit(RegisterLoadingState());
     try {
@@ -47,13 +47,13 @@ class AuthCubit extends Cubit<AuthStates> {
           "email": email,
           "phone": phone,
           "password": password,
-          "whatsapp_number": whatsapp_number,
-          "id_card_number": id_card_number,
-          "the_job": the_job,
-          "the_address": the_address,
+          "whatsapp_number": whatsAppNumber,
+          "id_card_number": idCardNumber,
+          "the_job": theJob,
+          "the_address": theAddress,
           "governorate": governorate,
-          "city_center": city_center,
-          "previous_experience": previous_experience,
+          "city_center": cityCenter,
+          "previous_experience": previousExperience,
         },
       );
       if (response.statusCode == 200) {
@@ -63,7 +63,9 @@ class AuthCubit extends Cubit<AuthStates> {
           var user = User.fromJson(data);
 
           emit(RegisterSuccessState(userId: user.user!.id.toString()));
-          print(data);
+          if (kDebugMode) {
+            print(data);
+          }
         } else {
           debugPrint("Response is : $data");
           var user = User.fromJson(data);
@@ -124,7 +126,9 @@ class AuthCubit extends Cubit<AuthStates> {
         await CacheNetwork.insertToCache(
             key: "token", value: responseData['token']);
         emit(OTPSuccessState());
-        print('Verification code sent successfully');
+        if (kDebugMode) {
+          print('Verification code sent successfully');
+        }
       } else if (response.statusCode == 401) {
         var data = jsonDecode(response.body);
 
@@ -133,17 +137,23 @@ class AuthCubit extends Cubit<AuthStates> {
       } else {
         // Handle the error
         emit(OTPFieldState(message: responseData['message']));
-        print(
+        if (kDebugMode) {
+          print(
             'Failed to send verification code. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        }
+        if (kDebugMode) {
+          print('Response body: ${response.body}');
+        }
       }
     } catch (error) {
       // Handle any exceptions that occur during the HTTP request
-      print('Error sending verification code: $error');
+      if (kDebugMode) {
+        print('Error sending verification code: $error');
+      }
     }
   }
 
-  Future<void> ResendVerificationCode({required String userId}) async {
+  Future<void> resendVerificationCode({required String userId}) async {
     emit(OTPResendLoadingState());
 
     final url = Uri.parse(
@@ -165,7 +175,9 @@ class AuthCubit extends Cubit<AuthStates> {
         await CacheNetwork.insertToCache(
             key: "token", value: responseData['token']);
         emit(OTPResendSuccessState());
-        print('Verification code sent successfully');
+        if (kDebugMode) {
+          print('Verification code sent successfully');
+        }
       } else if (response.statusCode == 401) {
         var data = jsonDecode(response.body);
 
@@ -174,13 +186,19 @@ class AuthCubit extends Cubit<AuthStates> {
       } else {
         // Handle the error
         emit(OTPResendFieldState(message: responseData['message']));
-        print(
+        if (kDebugMode) {
+          print(
             'Failed to send verification code. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        }
+        if (kDebugMode) {
+          print('Response body: ${response.body}');
+        }
       }
     } catch (error) {
       // Handle any exceptions that occur during the HTTP request
-      print('Error sending verification code: $error');
+      if (kDebugMode) {
+        print('Error sending verification code: $error');
+      }
     }
   }
 
@@ -199,7 +217,9 @@ class AuthCubit extends Cubit<AuthStates> {
         var responseData = jsonDecode(response.body);
         if (responseData['status'] == true) {
           // debugPrint("User login success and his Data is : ${responseData['data']['token']}");
-          print('====  ===== ===== ===== ${responseData['status']}');
+          if (kDebugMode) {
+            print('====  ===== ===== ===== ${responseData['status']}');
+          }
           await CacheNetwork.insertToCache(
               key: "token", value: responseData['token']);
 
@@ -247,7 +267,9 @@ class AuthCubit extends Cubit<AuthStates> {
             key: "token", value: responseData['token']);
 
         emit(OTPResetSuccessState());
-        print('Verification code sent successfully');
+        if (kDebugMode) {
+          print('Verification code sent successfully');
+        }
       } else if (response.statusCode == 401) {
         var data = jsonDecode(response.body);
 
@@ -257,13 +279,19 @@ class AuthCubit extends Cubit<AuthStates> {
         // Handle the error
 
         emit(OTPResetFieldState(message: responseData['message']));
-        print(
+        if (kDebugMode) {
+          print(
             'Failed to send verification code. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        }
+        if (kDebugMode) {
+          print('Response body: ${response.body}');
+        }
       }
     } catch (error) {
       // Handle any exceptions that occur during the HTTP request
-      print('Error sending verification code: $error');
+      if (kDebugMode) {
+        print('Error sending verification code: $error');
+      }
     }
   }
 
@@ -288,17 +316,19 @@ class AuthCubit extends Cubit<AuthStates> {
           debugPrint("Response is : $data");
           var user = User.fromJson(data);
           emit(ResetPasswordSuccessState(userId: user.user!.id.toString()));
-          print(data);
+          if (kDebugMode) {
+            print(data);
+          }
         } else {
           debugPrint("Response is : $data");
-          var user = User.fromJson(data);
+          // var user = User.fromJson(data);
 
           emit(FailedToResetPasswordState(message: data['message']));
           // emit(R());
         }
       } else if (response.statusCode == 401) {
         var data = jsonDecode(response.body);
-        var user = User.fromJson(data);
+        // var user = User.fromJson(data);
         emit(FailedToResetPasswordState(message: data['errors']['phone'][0]));
       } else {
         var data = jsonDecode(response.body);
@@ -310,9 +340,9 @@ class AuthCubit extends Cubit<AuthStates> {
     }
   }
 
-  void ChangePassword({
+  void changePassword({
     required String password,
-    required String password_confirmation,
+    required String passwordConfirmation,
     required String token,
   }) async {
     emit(ChangePasswordLoadingState());
@@ -326,7 +356,7 @@ class AuthCubit extends Cubit<AuthStates> {
         },
         body: {
           'password': password,
-          'password_confirmation': password_confirmation,
+          'password_confirmation': passwordConfirmation,
         },
       );
       if (response.statusCode == 200) {
@@ -334,7 +364,9 @@ class AuthCubit extends Cubit<AuthStates> {
         if (data['status'] == true) {
           debugPrint("Response is : $data");
           emit(ChangePasswordSuccessState());
-          print(data);
+          if (kDebugMode) {
+            print(data);
+          }
         }
       } else if (response.statusCode == 401) {
         var data = jsonDecode(response.body);

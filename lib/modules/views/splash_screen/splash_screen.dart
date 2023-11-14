@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key});
+  const SplashScreen({super.key});
+
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -42,8 +43,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
-                Center(
-                  child: const Text(
+                const Center(
+                  child: Text(
                     "Created By Digifly",
                     textAlign: TextAlign.center,
                     style: TextStyle(

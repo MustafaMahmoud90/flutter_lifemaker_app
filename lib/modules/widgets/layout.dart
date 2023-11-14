@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lifemaker/modules/profile/screens/profile_screen.dart';
 import 'package:lifemaker/modules/widgets/layout2.dart';
 import 'package:lifemaker/repo/layout/cubit/layout_cubit.dart';
 import 'package:lifemaker/repo/modals/user_data_modal.dart';
+
+import 'component.dart';
 
 class LayoutMaker extends StatefulWidget {
   const LayoutMaker({super.key});
@@ -86,7 +89,7 @@ class _LayoutMakerState extends State<LayoutMaker> {
               child: Container(
                 alignment: Alignment.centerRight,
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
+                  horizontal: 10,
                   vertical: 40,
                 ),
                 child: Row(
@@ -123,17 +126,26 @@ class _LayoutMakerState extends State<LayoutMaker> {
                         ),
                       ],
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        LayoutCubit().showLogoutConfirmationDialog(context);
-                      },
-                      child: Container(
-                        height: 35,
-                        child: 
-                        Image.asset('assets/icons/icon.png')
-                      
-                      ),
-                    ),
+                    IconButton(
+                        icon: const Icon(CupertinoIcons.person,color: Colors.white,size: 35),
+
+                        onPressed: () {
+                          navigateTo(context, const ProfileScreen());
+
+                        }),
+                    // TextButton.icon(
+                    //   style: TextButton.styleFrom(
+                    //     iconColor: Colors.white
+                    //   ),
+                    //     icon: Icon(CupertinoIcons.person),
+                    //     label: const Text('الملف الشخصي',style: TextStyle(
+                    //       color: Colors.white,
+                    //       fontWeight: FontWeight.bold,
+                    //
+                    //     ),),
+                    //     onPressed: () {
+                    //       navigateTo(context, const ProfileScreen());
+                    //     }),
                   ],
                 ),
               ),

@@ -22,12 +22,12 @@ void navigateTo(BuildContext context, Widget screen) {
   );
 }
 
-void navigateAndFinish(context, Widget) => Navigator.pushAndRemoveUntil(
+void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       context,
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 1100),
         reverseTransitionDuration: const Duration(milliseconds: 700),
-        pageBuilder: (context, animation, secondaryAnimation) => Widget,
+        pageBuilder: (context, animation, secondaryAnimation) => widget,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return const ZoomPageTransitionsBuilder().buildTransitions(
             MaterialPageRoute(builder: (context) => child),

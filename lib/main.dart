@@ -1,12 +1,13 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:lifemaker/modules/views/auth/cubit/auth_cubit.dart';
 import 'package:lifemaker/modules/views/auth/login.dart';
 import 'package:lifemaker/modules/views/splash_screen/splash_screen.dart';
 import 'package:lifemaker/modules/widgets/layout.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:lifemaker/repo/layout/cubit/layout_cubit.dart';
 import 'package:lifemaker/repo/shared/constans/constans.dart';
 import 'package:lifemaker/repo/shared/network/local_network.dart';
@@ -22,22 +23,22 @@ Future<void> main() async {
   token = CacheNetwork.getData(key: 'token');
 
   if (token != null && token != '') {
-    widget = LayoutMaker();
+    widget = const LayoutMaker();
   } else {
     widget = LoginScreen();
   }
 
-  print("Your Exbended Token is : $token");
+  if (kDebugMode) {
+    print("Your  Token is : $token");
+  }
   // print("Your name : ${LayoutCubit().userModal!.username}");
-  runApp(MyApp(
-    startWidget: widget,
-  ));
+  runApp(MyApp(startWidget: widget));
 }
 
 class MyApp extends StatelessWidget {
   final Widget startWidget;
 
-  MyApp({super.key, required this.startWidget});
+  const MyApp({super.key, required this.startWidget});
 
   // This widget is the root of your application.
   @override
@@ -109,7 +110,7 @@ class MyApp extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 15),
                           decoration: BoxDecoration(
-                              color: Color(0xffE9791E),
+                              color: const Color(0xffE9791E),
                               borderRadius: BorderRadius.circular(15)),
                           child: const Text('إعادة المحاولة',
                               style: TextStyle(

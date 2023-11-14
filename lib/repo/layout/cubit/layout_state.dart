@@ -17,7 +17,7 @@ class GetUserDataLoadingState extends LayoutState {}
 class GetUserDataSuccessState extends LayoutState {}
 
 class GetUserDataFaildState extends LayoutState {
-  String error;
+ final  String error;
   GetUserDataFaildState({required this.error});
 }
 
