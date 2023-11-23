@@ -16,11 +16,24 @@ import 'package:lifemaker/repo/shared/constans/constans.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../about/about_info.dart';
+import '../../../services/firebase/notifications/firebase_notification.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   final bool? isVoted;
 
   const HomeScreen({super.key, this.isVoted});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseCustomNotification.setUpFirebase();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +61,8 @@ class HomeScreen extends StatelessWidget {
             // borderRadius: BorderRadius.circular(20),
           ),
           child: GridView.count(
-            crossAxisCount: 2, // Number of cards in each row
+            crossAxisCount: 2,
+            // Number of cards in each row
             shrinkWrap: true,
             mainAxisSpacing: 30,
             crossAxisSpacing: 20,
@@ -67,10 +81,11 @@ class HomeScreen extends StatelessWidget {
                     if (cubit.userModal!.isVoted == true) {
                       AwesomeDialog(
                         context: context,
-                        dialogType: DialogType
-                            .warning, // You can choose the dialog type you prefer
+                        dialogType: DialogType.warning,
+                        // You can choose the dialog type you prefer
                         animType: AnimType.scale,
-                        titleTextStyle: const TextStyle(fontWeight: FontWeight.w700),
+                        titleTextStyle:
+                            const TextStyle(fontWeight: FontWeight.w700),
                         title: 'لقد قمت بالإنتخاب بالفعل',
                         // desc: "state.message",
                         reverseBtnOrder: true,
@@ -216,29 +231,29 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: ()=>  navigateTo(context,  AboutScreen()),
+                onTap: () => navigateTo(context, AboutScreen()),
                 child: const AboutWidget(
                   image: AssetImage('assets/logo3.png'),
                   image2: AssetImage("assets/logo3.png"),
-                  text:  "قصص نجاح المتطوعيين",
-                  isAvilable: true,
-                ),
-              ),
-               InkWell(
-                onTap: ()=>  navigateTo(context,  const AboutInfo()),
-                child: const InfoWidget(
-                  image: AssetImage('assets/logo2.png'),
-                  image2: AssetImage('assets/logo2.png'),
-                  text:  "من نحن",
+                  text: "قصص نجاح المتطوعيين",
                   isAvilable: true,
                 ),
               ),
               InkWell(
-                onTap: ()=>  navigateTo(context,  const OtherMeans()),
+                onTap: () => navigateTo(context, const AboutInfo()),
+                child: const InfoWidget(
+                  image: AssetImage('assets/logo2.png'),
+                  image2: AssetImage('assets/logo2.png'),
+                  text: "من نحن",
+                  isAvilable: true,
+                ),
+              ),
+              InkWell(
+                onTap: () => navigateTo(context, const OtherMeans()),
                 child: const OtherMeansWidgets(
                   image: AssetImage('assets/logo4.png'),
                   image2: AssetImage("assets/logo4.png"),
-                  text:  "وسائل التبرع",
+                  text: "وسائل التبرع",
                   isAvilable: true,
                 ),
               ),
@@ -254,24 +269,24 @@ class HomeScreen extends StatelessWidget {
               //   text: 'فرص تطوعية',
               //   isAvilable: false,
               // ),
-            //   const CardWidget( 
-            //     image: AssetImage('assets/icons/8.png'),
-            //     image2: AssetImage("assets/icons/18.png"),
-            //     text: 'حملات',
-            //     isAvilable: false,
-            //   ),
-            //   const CardWidget(
-            //     image: AssetImage('assets/icons/1.png'),
-            //     image2: AssetImage("assets/icons/14.png"),
-            //     text: 'ضبط العضوية',
-            //     isAvilable: false,
-            //   ),
-            //   const CardWidget(
-            //     image: AssetImage('assets/icons/2.png'),
-            //     image2: AssetImage("assets/icons/15.png"),
-            //     text: 'ضبط الحساب الشخصي',
-            //     isAvilable: false,
-            //   ),
+              //   const CardWidget(
+              //     image: AssetImage('assets/icons/8.png'),
+              //     image2: AssetImage("assets/icons/18.png"),
+              //     text: 'حملات',
+              //     isAvilable: false,
+              //   ),
+              //   const CardWidget(
+              //     image: AssetImage('assets/icons/1.png'),
+              //     image2: AssetImage("assets/icons/14.png"),
+              //     text: 'ضبط العضوية',
+              //     isAvilable: false,
+              //   ),
+              //   const CardWidget(
+              //     image: AssetImage('assets/icons/2.png'),
+              //     image2: AssetImage("assets/icons/15.png"),
+              //     text: 'ضبط الحساب الشخصي',
+              //     isAvilable: false,
+              //   ),
             ],
           ),
         );

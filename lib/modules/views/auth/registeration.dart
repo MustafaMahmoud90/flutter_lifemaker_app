@@ -9,6 +9,8 @@ import 'package:lifemaker/modules/views/auth/otp.dart';
 import 'package:lifemaker/modules/widgets/btn_theme.dart';
 import 'package:lifemaker/modules/widgets/utils.dart';
 
+import '../../../services/firebase/notifications/firebase_notification.dart';
+
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
 
@@ -17,6 +19,14 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FirebaseCustomNotification.setUpFirebase();
+
+  }
   final nameController = TextEditingController();
 
   final userNameController = TextEditingController();

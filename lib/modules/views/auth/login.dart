@@ -10,12 +10,29 @@ import 'package:lifemaker/modules/widgets/btn_theme.dart';
 import 'package:lifemaker/modules/widgets/component.dart';
 import 'package:lifemaker/modules/widgets/layout.dart';
 
-class LoginScreen extends StatelessWidget {
+import '../../../services/firebase/notifications/firebase_notification.dart';
+
+class LoginScreen extends StatefulWidget {
+
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseCustomNotification.setUpFirebase();
+
+  }
   final userNameController = TextEditingController();
+
   final passwordController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
-  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

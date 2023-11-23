@@ -1,4 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,13 +13,15 @@ import 'package:lifemaker/repo/layout/cubit/layout_cubit.dart';
 import 'package:lifemaker/repo/shared/constans/constans.dart';
 import 'package:lifemaker/repo/shared/network/local_network.dart';
 
+import 'firebase_options.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheNetwork.cacheInitialization();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   token = await CacheNetwork.getCacheData(key: "token");
 
   Widget widget;
-  // await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
 
   token = CacheNetwork.getData(key: 'token');
 

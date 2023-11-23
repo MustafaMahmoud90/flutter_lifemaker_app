@@ -127,7 +127,8 @@ class _LayoutMakerState extends State<LayoutMaker> {
                       ],
                     ),
                     IconButton(
-                        icon: const Icon(CupertinoIcons.person,color: Colors.white,size: 35),
+                        icon: const Icon(CupertinoIcons.person,color: Colors.white,size: 35
+                        ),
 
                         onPressed: () {
                           navigateTo(context, const ProfileScreen());
